@@ -11,6 +11,7 @@ public class StreetMap {
 
         boolean show = false;
         boolean directions = false;
+        boolean verbose = false;
 
         String map = "";
         String start = "";
@@ -22,12 +23,19 @@ public class StreetMap {
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("--show")) {
                     show = true;
-                }
-
-                if (args[i].equals("--directions")) {
+                } else if (args[i].equals("--directions")) {
                     directions = true;
                     start = args[i + 1];
                     end = args[i + 2];
+                } else if (args[i].equals("--verbose")) {
+                    verbose = true;
+                } else if (args[i].equals("--help")) {
+                    System.out.println("Usage: java StreetMap <map file> [--show] [--directions <start> <end>] [--verbose]");
+                    System.out.println("Options:");
+                    System.out.println("--show: Display the map with directions.");
+                    System.out.println("--directions <start> <end>: Show directions from start to end.");
+                    System.out.println("--verbose: Print additional information during execution.");
+                    return;
                 }
             }
         } else {
@@ -84,7 +92,7 @@ public class StreetMap {
 
         URHashTable<String, String> parents = dijkstra(graph, startNode, targetNode);
 
-        if (directions) {
+        if (verbose) {
             printDirections(graph, parents, startNode, targetNode);
         }
         if (show) {
